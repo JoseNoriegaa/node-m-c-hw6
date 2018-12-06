@@ -11,41 +11,42 @@ const Config = require('./config');
 // Server container
 const server = {};
 
-// add http support to the server
-server.http = Http.createServer((req, res) => {
-  const { url } = req;
-  const { pathname } = Url.parse(url, true);
-  const _path = pathname.replace(/^\/+|\/+$/g, '');
-  req.on('data', () => {});
-  req.on('end', () => {
-    const _routeHandler = router[_path] ?
-    router[_path] : handlers.notFound;
-    _routeHandler(null, (status, payload) => {
-      const _data = JSON.stringify(payload);
-      res.setHeader('Content-Type', 'application/json');
-      res.writeHead(status);
-      res.end(_data);
-    });
-  });
-});
-
 // Request handlers container
 const handlers = {};
 
 // Handlers
 
 handlers.helloHandler = (data, cb) => {
-  cb(200, {message: 'hello world!'});
+  cb(200, { message: 'hello world!' });
 };
 
 handlers.notFound = (data, cb) => {
-  cb(404, {message: 'Not found'});
+  cb(404, { message: 'Not found' });
 };
 
 // Router
 const router = {
   hello: handlers.helloHandler,
 };
+
+// add http support to the server
+server.http = Http.createServer((req, res) => {
+  const { url } = req;
+  const { pathname } = Url.parse(url, true);
+  const path = pathname.replace(/^\/+|\/+$/g, '');
+  req.on('data', () => {});
+  req.on('end', () => {
+    const routeHandler = router[path]
+      ? router[path] : handlers.notFound;
+    routeHandler(null, (status, payload) => {
+      const data = JSON.stringify(payload);
+      res.setHeader('Content-Type', 'application/json');
+      res.writeHead(status);
+      res.end(data);
+    });
+  });
+});
+
 
 // Init scripts function
 server.init = () => {
