@@ -6,3 +6,14 @@
 | Route | Response |
 |--|--|
 | /hello | { message: "Hello world"} |
+
+# Run it locally
+- Clone this repo
+  ```console
+  $ git clone https://github.com/JoseNoriegaa/node-m-c-hw6.git hw6
+  ```
+- Run the proyect:
+  ```console
+  $ cd hw6
+  $ node index
+  ```
