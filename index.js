@@ -1,5 +1,5 @@
 /**
- * Primary file for the REST API
+ * Main file for the REST API
  */
 // Dependencies
 const Http = require('http');
